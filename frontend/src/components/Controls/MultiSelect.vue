@@ -87,7 +87,7 @@ import {
 	ComboboxOption,
 } from '@headlessui/vue'
 import { createResource, Popover, Button } from 'frappe-ui'
-import { ref, computed, nextTick } from 'vue'
+import { ref, computed, nextTick, onMounted } from 'vue'
 import { watchDebounced } from '@vueuse/core'
 import { X } from 'lucide-vue-next'
 
@@ -147,6 +147,10 @@ watchDebounced(
 	},
 	{ debounce: 300, immediate: true }
 )
+
+onMounted(() => {
+	filterOptions.reload()
+})
 
 const filterOptions = createResource({
 	url: 'frappe.desk.search.search_link',
