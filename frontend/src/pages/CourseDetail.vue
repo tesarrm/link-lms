@@ -113,7 +113,7 @@ const course = createResource({
 })
 
 const breadcrumbs = computed(() => {
-	let items = [{ label: 'All Courses', route: { name: 'Courses' } }]
+	let items = [{ label: 'Semua Pelajaran', route: { name: 'Courses' } }]
 	items.push({
 		label: course?.data?.title,
 		route: { name: 'CourseDetail', params: { course: course?.data?.name } },

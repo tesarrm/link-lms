@@ -51,7 +51,7 @@
 									<ChevronLeft class="w-4 h-4 stroke-1" />
 								</template>
 								<span>
-									{{ __('Previous') }}
+									{{ __('Kembali') }}
 								</span>
 							</Button>
 						</router-link>
@@ -67,7 +67,7 @@
 							}"
 						>
 							<Button class="mr-2">
-								{{ __('Edit') }}
+								{{ __('Ubah') }}
 							</Button>
 						</router-link>
 						<router-link
@@ -86,7 +86,7 @@
 									<ChevronRight class="w-4 h-4 stroke-1" />
 								</template>
 								<span>
-									{{ __('Next') }}
+									{{ __('Lanjut') }}
 								</span>
 							</Button>
 						</router-link>
@@ -160,7 +160,7 @@
 						{{ lesson.data.course_title }}
 					</div>
 					<div v-if="user && lesson.data.membership" class="text-sm mt-3">
-						{{ Math.ceil(lesson.data.membership.progress) }}% completed
+						{{ Math.ceil(lesson.data.membership.progress) }}% selesai 
 					</div>
 
 					<ProgressBar

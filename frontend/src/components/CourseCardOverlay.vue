@@ -26,7 +26,7 @@
 			>
 				<Button variant="solid" size="md" class="w-full">
 					<span>
-						{{ __('Continue Learning') }}
+						{{ __('Lanjut Belajar') }}
 					</span>
 				</Button>
 			</router-link>
@@ -60,7 +60,7 @@
 				size="md"
 			>
 				<span>
-					{{ __('Start Learning') }}
+					{{ __('Mulai Belajar') }}
 				</span>
 			</Button>
 			<router-link
@@ -74,32 +74,32 @@
 			>
 				<Button variant="subtle" class="w-full mt-2" size="md">
 					<span>
-						{{ __('Edit') }}
+						{{ __('Ubah') }}
 					</span>
 				</Button>
 			</router-link>
 			<div class="mt-8 mb-4 font-medium">
-				{{ __('This course has:') }}
+				{{ __('Pelajaran ini mempunyai:') }}
 			</div>
 			<div class="flex items-center mb-3">
 				<BookOpen class="h-5 w-5 stroke-1.5 text-gray-600" />
 				<span class="ml-2">
-					{{ course.data.lesson_count }} {{ __('Lessons') }}
+					{{ course.data.lesson_count }} {{ __('Topik') }}
 				</span>
 			</div>
 			<div class="flex items-center mb-3">
 				<Users class="h-5 w-5 stroke-1.5 text-gray-600" />
 				<span class="ml-2">
 					{{ course.data.enrollment_count_formatted }}
-					{{ __('Enrolled Students') }}
+					{{ __('Siswa') }}
 				</span>
 			</div>
-			<div class="flex items-center">
+			<!-- <div class="flex items-center">
 				<Star class="h-5 w-5 stroke-1.5 fill-orange-500 text-gray-50" />
 				<span class="ml-2">
 					{{ course.data.avg_rating }} {{ __('Rating') }}
 				</span>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </template>

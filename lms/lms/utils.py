@@ -1335,9 +1335,10 @@ def get_course_details(course):
 
 
 def get_categorized_courses(courses):
-	live, upcoming, new, enrolled, created, under_review = [], [], [], [], [], []
+	live, upcoming, new, enrolled, created, under_review, all = [], [], [], [], [], [], []
 
 	for course in courses:
+		all.append(course)
 		if course.status == "Under Review":
 			under_review.append(course)
 		elif course.published and course.upcoming:
@@ -1370,6 +1371,7 @@ def get_categorized_courses(courses):
 		"enrolled": enrolled,
 		"created": created,
 		"under_review": under_review,
+		"all": all
 	}
 
 

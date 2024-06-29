@@ -12,14 +12,14 @@
 				</header>
 				<div class="py-5">
 					<div class="w-5/6 mx-auto">
-						<FormControl v-model="lesson.title" label="Title" class="mb-4" />
-						<FormControl
+						<FormControl v-model="lesson.title" label="Judul" class="mb-4" />
+						<!-- <FormControl
 							v-model="lesson.include_in_preview"
 							type="checkbox"
 							label="Include in Preview"
-						/>
+						/> -->
 					</div>
-					<div class="border-t mt-4">
+					<div class="border-t mt-4 hidden">
 						<div class="w-5/6 mx-auto pt-4">
 							<div
 								class="flex justify-between cursor-pointer"
@@ -46,11 +46,11 @@
 								class="ProseMirror prose prose-table:table-fixed prose-td:p-2 prose-th:p-2 prose-td:border prose-th:border prose-td:border-gray-300 prose-th:border-gray-300 prose-td:relative prose-th:relative prose-th:bg-gray-100 prose-sm max-w-none !whitespace-normal mt-6 py-3"
 							></div>
 						</div>
-					</div>
+					</div> 
 					<div class="border-t mt-4">
 						<div class="w-5/6 mx-auto pt-4">
 							<label class="block font-medium text-gray-600 mb-1">
-								{{ __('Content') }}
+								{{ __('Konten') }}
 							</label>
 							<div
 								id="content"

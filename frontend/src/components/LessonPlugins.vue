@@ -1,9 +1,9 @@
 <template>
 	<div class="text-lg font-semibold">
-		{{ __('Components') }}
+		{{ __('Komponen') }}
 	</div>
 	<div class="mt-5">
-		<Tooltip
+		<!--<Tooltip
 			:text="
 				__(
 					'Content such as quiz, video and image will be added in the editor you select.'
@@ -17,13 +17,26 @@
 				</div>
 				<Select v-model="currentEditor" :options="getEditorOptions()" />
 			</div>
-		</Tooltip>
+		</Tooltip> -->
+		<a :href="'/app/lms-quiz'">
+			<Button
+				:variant="'subtle'"
+				theme="gray"
+				size="sm"
+				label="Tambah Kuis"
+				:loading="false"
+				:loadingText="null"
+				:disabled="false"
+				:link="null"
+				>
+		</Button>
+		</a>
 		<div class="flex mt-4">
 			<Link
 				v-model="quiz"
 				class="flex-1"
 				doctype="LMS Quiz"
-				:label="__('Select a Quiz')"
+				:label="__('Pilih Kuis')"
 			/>
 			<Button @click="addQuiz()" class="self-end ml-2">
 				<template #icon>
@@ -33,7 +46,7 @@
 		</div>
 		<div class="mt-4">
 			<div class="text-xs text-gray-600 mb-1">
-				{{ __('Add an image, video, pdf or audio.') }}
+				{{ __('Tambah gambar, video, pdf, atau audio') }}
 			</div>
 			<div class="flex">
 				<FileUploader
@@ -47,8 +60,8 @@
 							<Button @click="openFileSelector" :loading="uploading">
 								{{
 									uploading
-										? __('Uploading {0}%').format(progress)
-										: __('Upload a File')
+										? __('Mengunggah{0}%').format(progress)
+										: __('Unggah File')
 								}}
 							</Button>
 						</div>
@@ -72,11 +85,11 @@
 			<div class="text-xs text-gray-600 mb-1">
 				{{
 					__(
-						'To add a YouTube video, paste the URL of the video in the editor.'
+						'Untuk menambahkan video YouTube, salin URL video di konten editor.'
 					)
 				}}
 			</div>
-			<YouTubeExplanation>
+			<!-- <YouTubeExplanation>
 				<template v-slot="{ togglePopover }">
 					<div
 						@click="togglePopover()"
@@ -86,7 +99,7 @@
 						{{ __('Learn More') }}
 					</div>
 				</template>
-			</YouTubeExplanation>
+			</YouTubeExplanation> -->
 		</div>
 	</div>
 </template>

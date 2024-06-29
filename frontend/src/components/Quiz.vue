@@ -3,7 +3,7 @@
 		<div class="bg-blue-100 py-2 px-2 mb-4 rounded-md text-sm text-blue-800">
 			<div class="leading-relaxed">
 				{{
-					__('This quiz consists of {0} questions.').format(
+					__('Kuis ini terdiri dari {0} pertanyaan.').format(
 						quiz.data.questions.length
 					)
 				}}
@@ -11,13 +11,13 @@
 			<div v-if="quiz.data.passing_percentage" class="leading-relaxed">
 				{{
 					__(
-						'You will have to get {0}% correct answers in order to pass the quiz.'
+						'Anda harus mendapatkan jawaban yang {0}% benar agar dapat lulus kuis.'
 					).format(quiz.data.passing_percentage)
 				}}
 			</div>
 			<div v-if="quiz.data.max_attempts" class="leading-relaxed">
 				{{
-					__('You can attempt this quiz {0}.').format(
+					__('Anda dapat mencoba kuis ini sebanyak {0} kali.').format(
 						quiz.data.max_attempts == 1
 							? '1 time'
 							: `${quiz.data.max_attempts} times`
@@ -46,13 +46,13 @@
 					class="mt-2"
 				>
 					<span>
-						{{ __('Start') }}
+						{{ __('Mulai') }}
 					</span>
 				</Button>
 				<div v-else>
 					{{
 						__(
-							'You have already exceeded the maximum number of attempts allowed for this quiz.'
+							'Anda telah melampaui jumlah percobaan maksimum yang diperbolehkan untuk kuis ini.'
 						)
 					}}
 				</div>
@@ -67,19 +67,19 @@
 					<div class="flex justify-between">
 						<div class="text-sm">
 							<span class="mr-2">
-								{{ __('Question {0}').format(activeQuestion) }}:
+								{{ __('Pertanyaan {0}').format(activeQuestion) }}:
 							</span>
 							<span>
 								{{
 									questionDetails.data.multiple
-										? __('Choose all answers that apply')
-										: __('Choose one answer')
+										? __('Pilih semua jawaban yang sesuai')
+										: __('Pilih satu jawaban')
 								}}
 							</span>
 						</div>
 						<div class="text-gray-900 text-sm font-semibold item-left">
 							{{ question.marks }}
-							{{ question.marks == 1 ? __('Mark') : __('Marks') }}
+							{{ question.marks == 1 ? __('Poin') : __('Poin') }}
 						</div>
 					</div>
 					<div
@@ -161,7 +161,7 @@
 					<div class="flex items-center justify-between mt-5">
 						<div>
 							{{
-								__('Question {0} of {1}').format(
+								__('Pertanyaan {0} dari {1}').format(
 									activeQuestion,
 									quiz.data.questions.length
 								)
@@ -172,7 +172,7 @@
 							@click="checkAnswer()"
 						>
 							<span>
-								{{ __('Check') }}
+								{{ __('Cek') }}
 							</span>
 						</Button>
 						<Button
@@ -180,12 +180,12 @@
 							@click="nextQuetion()"
 						>
 							<span>
-								{{ __('Next') }}
+								{{ __('Lanjut') }}
 							</span>
 						</Button>
 						<Button v-else @click="submitQuiz()">
 							<span>
-								{{ __('Submit') }}
+								{{ __('Kirim') }}
 							</span>
 						</Button>
 					</div>
@@ -194,12 +194,12 @@
 		</div>
 		<div v-else class="border rounded-md p-20 text-center">
 			<div class="text-lg font-semibold">
-				{{ __('Quiz Summary') }}
+				{{ __('Hasil Kuis') }}
 			</div>
 			<div>
 				{{
 					__(
-						'You got {0}% correct answers with a score of {1} out of {2}'
+						'Anda mendapat {0}% jawaban benar dengan skor {1} dari {2}'
 					).format(
 						Math.ceil(quizSubmission.data.percentage),
 						quizSubmission.data.score,
@@ -216,7 +216,7 @@
 				"
 			>
 				<span>
-					{{ __('Try Again') }}
+					{{ __('Coba Lagi') }}
 				</span>
 			</Button>
 		</div>
@@ -276,6 +276,34 @@ const quiz = createResource({
 	},
 })
 
+// const attempts = createResource({
+// 	url: 'frappe.client.get_list',
+// 	makeParams(values) {
+// 		return {
+// 			doctype: 'LMS Quiz Submission',
+// 			filters: {
+// 				member: user.data?.name,
+// 				quiz: quiz.data?.name,
+// 			},
+// 			fields: [
+// 				'name',
+// 				'creation',
+// 				'score',
+// 				'score_out_of',
+// 				'percentage',
+// 				'passing_percentage',
+// 			],
+// 			order_by: 'creation desc',
+// 		}
+// 	},
+// 	transform(data) {
+// 		data.forEach((submission, index) => {
+// 			submission.creation = timeAgo(submission.creation)
+// 			submission.idx = index + 1
+// 		})
+// 	},
+// })
+
 const attempts = createResource({
 	url: 'frappe.client.get_list',
 	makeParams(values) {
@@ -294,15 +322,19 @@ const attempts = createResource({
 				'passing_percentage',
 			],
 			order_by: 'creation desc',
-		}
+		};
 	},
 	transform(data) {
 		data.forEach((submission, index) => {
-			submission.creation = timeAgo(submission.creation)
-			submission.idx = index + 1
-		})
+			submission.creation = timeAgo(submission.creation);
+			submission.idx = index + 1;
+			submission.score = submission.score === 0 ? '0' : submission.score;
+			submission.percentage = submission.percentage === 0 ? '0' : submission.percentage;
+			submission.passing_percentage = submission.passing_percentage === 0 ? '0' : submission.passing_percentage;
+		});
+		return data;
 	},
-})
+});
 
 watch(
 	() => quiz.data,
@@ -479,21 +511,21 @@ const getSubmissionColumns = () => {
 			key: 'idx',
 		},
 		{
-			label: 'Date',
+			label: 'Tgl',
 			key: 'creation',
 		},
 		{
-			label: 'Score',
+			label: 'Nilai',
 			key: 'score',
 			align: 'center',
 		},
 		{
-			label: 'Score out of',
+			label: 'Nilai Sempurna',
 			key: 'score_out_of',
 			align: 'center',
 		},
 		{
-			label: 'Percentage',
+			label: 'Presentasi',
 			key: 'percentage',
 			align: 'center',
 		},

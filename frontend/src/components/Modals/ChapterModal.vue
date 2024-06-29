@@ -2,11 +2,11 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Add Chapter'),
+			title: __('Tambah Bab'),
 			size: 'lg',
 			actions: [
 				{
-					label: chapterDetail ? __('Edit Chapter') : __('Add Chapter'),
+					label: chapterDetail ? __('Ubah Bab') : __('Tambah Bab'),
 					variant: 'solid',
 					onClick: (close) =>
 						chapterDetail ? editChapter(close) : addChapter(close),
@@ -15,7 +15,7 @@
 		}"
 	>
 		<template #body-content>
-			<FormControl label="Title" v-model="chapter.title" class="mb-4" />
+			<FormControl label="Judul" v-model="chapter.title" class="mb-4" />
 		</template>
 	</Dialog>
 </template>

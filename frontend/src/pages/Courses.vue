@@ -5,12 +5,12 @@
 		>
 			<Breadcrumbs
 				class="h-7"
-				:items="[{ label: __('All Courses'), route: { name: 'Courses' } }]"
+				:items="[{ label: __('Semua Pelajaran'), route: { name: 'Courses' } }]"
 			/>
 			<div class="flex space-x-2">
 				<FormControl
 					type="text"
-					placeholder="Search Course"
+					placeholder="Cari Pelajaran"
 					v-model="searchQuery"
 					@input="courses.reload()"
 				>
@@ -22,7 +22,7 @@
 					:to="{
 						name: 'CreateCourse',
 						params: {
-							courseName: 'new',
+							courseName: 'baru',
 						},
 					}"
 				>
@@ -30,7 +30,7 @@
 						<template #prefix>
 							<Plus class="h-4 w-4" />
 						</template>
-						{{ __('New Course') }}
+						{{ __('Tambah Pelajaran') }}
 					</Button>
 				</router-link>
 			</div>
@@ -38,7 +38,7 @@
 		<div class="">
 			<Tabs
 				v-model="tabIndex"
-				tablistClass="overflow-x-visible flex-wrap !gap-3 md:flex-nowrap"
+				tablistClass="overflow-x-visible flex-wrap !gap-3 md:flex-nowrap hidden"
 				:tabs="tabs"
 			>
 				<template #tab="{ tab, selected }">
@@ -117,7 +117,7 @@ import {
 } from 'frappe-ui'
 import CourseCard from '@/components/CourseCard.vue'
 import { Plus, Search } from 'lucide-vue-next'
-import { ref, computed, inject } from 'vue'
+import { ref, computed, inject, onMounted } from 'vue'
 import { updateDocumentTitle } from '@/utils'
 
 const user = inject('$user')
@@ -137,6 +137,11 @@ const courses = createResource({
 const tabIndex = ref(0)
 const tabs = [
 	{
+		label: 'All',
+		courses: computed(() => courses.data?.all || []),
+		count: computed(() => courses.data?.all ?.length),
+	},
+	{
 		label: 'Live',
 		courses: computed(() => courses.data?.live || []),
 		count: computed(() => courses.data?.live?.length),
@@ -152,7 +157,6 @@ const tabs = [
 		count: computed(() => courses.data?.upcoming?.length),
 	},
 ]
-
 if (user.data) {
 	tabs.push({
 		label: 'Enrolled',

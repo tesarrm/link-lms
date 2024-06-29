@@ -8,7 +8,7 @@
 				{{ __(title) }}
 			</div>
 			<Button size="sm" v-if="allowEdit" @click="openChapterModal()">
-				{{ __('Add Chapter') }}
+				{{ __('Tambah Bab') }}
 			</Button>
 			<!-- <span class="font-medium cursor-pointer" @click="expandAllChapters()">
 				{{ expandAll ? __("Collapse all chapters") : __("Expand all chapters") }}
@@ -85,11 +85,11 @@
 							}"
 						>
 							<Button>
-								{{ __('Add Lesson') }}
+								{{ __('Tambah Topik') }}
 							</Button>
 						</router-link>
 						<Button class="ml-2" @click="openChapterModal(chapter)">
-							{{ __('Edit Chapter') }}
+							{{ __('Ubah Bab') }}
 						</Button>
 					</div>
 				</DisclosurePanel>

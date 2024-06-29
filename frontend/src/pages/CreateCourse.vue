@@ -22,7 +22,7 @@
 						</router-link>
 						<Button variant="solid" @click="submitCourse()" class="ml-2">
 							<span>
-								{{ __('Save') }}
+								{{ __('Simpan') }}
 							</span>
 						</Button>
 					</div>
@@ -30,21 +30,21 @@
 				<div class="mt-5 mb-10">
 					<div class="container mb-5">
 						<div class="text-lg font-semibold mb-4">
-							{{ __('Details') }}
+							{{ __('Detail') }}
 						</div>
 						<FormControl
 							v-model="course.title"
-							:label="__('Title')"
+							:label="__('Judul')"
 							class="mb-4"
 						/>
 						<FormControl
 							v-model="course.short_introduction"
-							:label="__('Short Introduction')"
+							:label="__('Pengantar Singkat')"
 							class="mb-4"
 						/>
 						<div class="mb-4">
 							<div class="mb-1.5 text-sm text-gray-700">
-								{{ __('Course Description') }}
+								{{ __('Deskripsi Pelajaran') }}
 							</div>
 							<TextEditor
 								:content="course.description"
@@ -66,7 +66,7 @@
 								<div class="mb-4">
 									<Button @click="openFileSelector" :loading="uploading">
 										{{
-											uploading ? `Uploading ${progress}%` : 'Upload an image'
+											uploading ? `Mengunggah ${progress}%` : 'Unggah gambar'
 										}}
 									</Button>
 								</div>
@@ -74,7 +74,7 @@
 						</FileUploader>
 						<div v-else class="mb-4">
 							<div class="text-xs text-gray-600 mb-1">
-								{{ __('Course Image') }}
+								{{ __('Gambar Pelajaran') }}
 							</div>
 							<div class="flex items-center">
 								<div class="border rounded-md p-2 mr-2">
@@ -96,10 +96,11 @@
 						</div>
 						<FormControl
 							v-model="course.video_link"
-							:label="__('Preview Video')"
+							:label="__('Pratinjau Video')"
+							:description="__('Pratinjau berbentuk link video youtube')"
 							class="mb-4"
 						/>
-						<div class="mb-4">
+						<!--<div class="mb-4">
 							<div class="mb-1.5 text-xs text-gray-600">
 								{{ __('Tags') }}
 							</div>
@@ -121,16 +122,16 @@
 									id="tags"
 								/>
 							</div>
-						</div>
+						</div>-->
 						<MultiSelect
 							v-model="instructors"
 							doctype="User"
-							:label="__('Instructors')"
+							:label="__('Guru')"
 						/>
 					</div>
 					<div class="container border-t">
 						<div class="text-lg font-semibold mt-5 mb-4">
-							{{ __('Settings') }}
+							{{ __('Pengaturan') }}
 						</div>
 						<div class="grid grid-cols-2 gap-10 mb-4">
 							<div
@@ -140,16 +141,16 @@
 								<FormControl
 									type="checkbox"
 									v-model="course.published"
-									:label="__('Published')"
+									:label="__('Publik')"
 								/>
-								<FormControl
+								<!-- <FormControl
 									v-model="course.published_on"
 									:label="__('Published On')"
 									type="date"
 									class="mb-5"
-								/>
+								/> -->
 							</div>
-							<div class="flex flex-col space-y-3">
+							<!-- <div class="flex flex-col space-y-3">
 								<FormControl
 									type="checkbox"
 									v-model="course.upcoming"
@@ -165,10 +166,10 @@
 									v-model="course.disable_self_learning"
 									:label="__('Disable Self Enrollment')"
 								/>
-							</div>
+							</div> -->
 						</div>
 					</div>
-					<div class="container border-t">
+					<!-- <div class="container border-t">
 						<div class="text-lg font-semibold mt-5 mb-4">
 							{{ __('Pricing') }}
 						</div>
@@ -190,7 +191,7 @@
 							:filters="{ enabled: 1 }"
 							:label="__('Currency')"
 						/>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="border-l pt-5">
@@ -259,14 +260,14 @@ const course = reactive({
 
 onMounted(() => {
 	if (
-		props.courseName == 'new' &&
+		props.courseName == 'baru' &&
 		!user.data?.is_moderator &&
 		!user.data?.is_instructor
 	) {
 		router.push({ name: 'Courses' })
 	}
 
-	if (props.courseName !== 'new') {
+	if (props.courseName !== 'baru') {
 		courseResource.reload()
 	}
 	window.addEventListener('keydown', keyboardShortcut)
@@ -475,7 +476,7 @@ const check_permission = () => {
 const breadcrumbs = computed(() => {
 	let crumbs = [
 		{
-			label: 'Courses',
+			label: 'Pelajaran',
 			route: { name: 'Courses' },
 		},
 	]
@@ -486,7 +487,7 @@ const breadcrumbs = computed(() => {
 		})
 	}
 	crumbs.push({
-		label: props.courseName == 'new' ? 'New Course' : 'Edit Course',
+		label: props.courseName == 'baru' ? 'Pelajaran Baru' : 'Ubah Pelajaran',
 		route: { name: 'CreateCourse', params: { courseName: props.courseName } },
 	})
 	return crumbs
