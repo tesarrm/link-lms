@@ -1,5 +1,5 @@
 <template>
-	<Button class="float-right mb-3" variant="solid" @click="openStudentModal()">
+	<Button  v-if="user.data?.is_moderator" class="float-right mb-3" variant="solid" @click="openStudentModal()">
 		<template #prefix>
 			<Plus class="h-4 w-4" />
 		</template>
@@ -108,9 +108,10 @@ import {
 	Button,
 } from 'frappe-ui'
 import { Trash2, Plus } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import StudentModal from '@/components/Modals/StudentModal.vue'
 import AssignmentModal from '@/components/Modals/AssignmentModal.vue'
+const user = inject('$user')
 
 const showStudentModal = ref(false)
 

@@ -1,11 +1,11 @@
 <template>
 	<div>
-		<Button class="float-right mb-3" variant="solid" @click="openStudentModal()">
-			<template #prefix>
-				<Plus class="h-4 w-4" />
-			</template>
-			{{ __('Tambah Penugasan') }}
-		</Button>
+	<Button class="float-right mb-3" variant="solid" @click="openStudentModal()">
+		<template #prefix>
+			<Plus class="h-4 w-4" />
+		</template>
+		{{ __('Tambah Penugasan') }}
+	</Button>
 		<div class="text-lg font-semibold mb-4">
 			{{ __('Penugasan') }}
 		</div>

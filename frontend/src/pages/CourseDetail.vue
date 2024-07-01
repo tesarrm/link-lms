@@ -270,12 +270,12 @@ const tabs = computed(() => {
 		label: 'Pelajaran',
 		icon: LayoutDashboard,
 	})
-	if (user.data?.is_moderator) {
+	// if (user.data?.is_moderator) {
 		batchTabs.push({
 			label: 'Penugasan',
 			icon: BookOpenCheck,
 		})
-	}
+	// }
 	// if (isStudent.value) {
 	// 	batchTabs.push({
 	// 		label: 'Dashboard',

@@ -89,6 +89,32 @@ def get_rombel():
 # - show student on frontend
 
 @frappe.whitelist()
+def subject_rombel_student():
+	user = frappe.session.user
+	array_lama= get_all_detail('Rombel')
+
+	array_baru = []
+	courses = []
+	for rombel in array_lama:
+		for student in rombel.user:
+			if student.user == user:
+				array_baru = rombel.pembelajaran
+    
+	for course in array_baru:
+		courses.append(get_course_details(course))
+
+	courses = get_categorized_courses(courses)
+	return courses
+
+	# students_nested = []
+	# for a in students:
+	# 	for b in array_baru:
+	# 		if a.name == b.user:
+	# 			students_nested.append(a)
+
+	# return array_baru 
+
+@frappe.whitelist()
 def student_rombel_subject():
 	name = "1og2vfud17"
 	array_lama= get_all_detail('Rombel')
@@ -107,6 +133,7 @@ def student_rombel_subject():
 				students_nested.append(a)
 
 	return students_nested 
+
 
 
 def slugify(title, used_slugs=None):

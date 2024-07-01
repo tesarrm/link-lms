@@ -130,7 +130,7 @@ const courses = createResource({
 			search_query: searchQuery.value,
 		}
 	},
-	url: 'lms.lms.utils.get_courses',
+	url: 'lms.lms.utils.subject_rombel_student',
 	auto: true,
 })
 
