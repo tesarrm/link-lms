@@ -8,6 +8,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "max_attemps",
   "title",
   "grade_assignment",
   "question",
@@ -28,7 +29,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Type",
-   "options": "Document\nPDF\nURL\nImage\nText"
+   "options": "File\nDocument\nPDF\nURL\nImage\nText"
   },
   {
    "fieldname": "title",
@@ -60,11 +61,16 @@
    "fieldname": "grade_assignment",
    "fieldtype": "Check",
    "label": "Grade Assignment"
+  },
+  {
+   "fieldname": "max_attemps",
+   "fieldtype": "Int",
+   "label": "Max Attemps"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-05 12:01:36.601160",
+ "modified": "2024-06-30 14:59:21.529566",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Assignment",

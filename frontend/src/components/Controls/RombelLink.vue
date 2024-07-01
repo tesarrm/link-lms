@@ -51,7 +51,8 @@ import Autocomplete from '@/components/Controls/Autocomplete.vue'
 import { watchDebounced } from '@vueuse/core'
 import { createResource, Button } from 'frappe-ui'
 import { Plus } from 'lucide-vue-next'
-import { useAttrs, computed, ref } from 'vue'
+import { useAttrs, computed, ref, inject } from 'vue'
+const user = inject('$user')
 
 const props = defineProps({
 	doctype: {
@@ -105,23 +106,20 @@ watchDebounced(
 )
 
 const options = createResource({
-	url: 'frappe.desk.search.search_link',
+	url: 'lms.lms.utils.get_rombel',
 	// cache: [props.doctype, text.value],
 	method: 'POST',
-	params: {
-		txt: text.value,
-		doctype: props.doctype,
-		filters: props.filters,
-	},
 	transform: (data) => {
 		return data.map((option) => {
 			return {
-				label: option.value,
-				value: option.value,
+				label: `${option.rombel} - ${option.nama_bidang_studi}`,
+				value: `${option.bidang_studi} -- ${option.rombel} -- ${option.nama_bidang_studi}`,
 			}
 		})
 	},
 })
+ 
+ console.log(options)
 
 function reload(val) {
 	options.update({

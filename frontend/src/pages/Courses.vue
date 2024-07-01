@@ -134,6 +134,8 @@ const courses = createResource({
 	auto: true,
 })
 
+console.log(courses)
+
 const tabIndex = ref(0)
 const tabs = [
 	{

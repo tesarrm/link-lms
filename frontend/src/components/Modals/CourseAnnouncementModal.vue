@@ -2,13 +2,13 @@
 	<Dialog
 		v-model="show"
 		:options="{
-			title: __('Make an Announcement'),
+			title: __('Buat Pengumuman'),
 			size: 'xl',
 			actions: [
 				{
-					label: 'Submit',
+					label: 'Kirim',
 					variant: 'solid',
-					onClick: (close) => makeAnnouncement(close),
+					onClick: (close) => createAnnouncement(close),
 				},
 			],
 		}"
@@ -17,19 +17,13 @@
 			<div class="flex flex-col gap-4">
 				<div class="">
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Subject') }}
+						{{ __('Judul') }}
 					</div>
-					<Input type="text" v-model="announcement.subject" />
-				</div>
-				<div class="">
-					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Reply To') }}
-					</div>
-					<Input type="text" v-model="announcement.replyTo" />
+					<Input type="text" v-model="announcement.title" />
 				</div>
 				<div class="mb-4">
 					<div class="mb-1.5 text-sm text-gray-600">
-						{{ __('Announcement') }}
+						{{ __('Pengumuman') }}
 					</div>
 					<TextEditor
 						:bubbleMenu="true"
@@ -49,7 +43,7 @@ import { createToast } from '@/utils/'
 const show = defineModel()
 
 const props = defineProps({
-	batch: {
+	course: {
 		type: String,
 		required: true,
 	},
@@ -59,9 +53,57 @@ const props = defineProps({
 	},
 })
 
+const announResource = createResource({
+	url: 'frappe.client.insert',
+	makeParams(values) {
+		return {
+			doc: {
+				doctype: 'LMS Course Announcement',
+				parent: props.course,
+				parenttype: 'LMS Course',
+				parentfield: 'announcements',
+				announcement: announcement.announcement,
+				title : announcement.title,
+			},
+		}
+	},
+})
+
+const createAnnouncement = (close) => {
+	announResource.submit(
+		{},
+		{
+			validate() {
+				if (!props.students.length) {
+					return 'Tidak ada siswa di pelajaran ini'
+				}
+			},
+			onSuccess() {
+				close()
+				createToast({
+					title: 'Success',
+					text: 'Pengumuman telah di buat',
+					icon: 'Check',
+					iconClasses: 'bg-green-600 text-white rounded-md p-px',
+				})
+			},
+			onError(err) {
+				createToast({
+					title: 'Error',
+					text: err.messages?.[0] || err,
+					icon: 'x',
+					iconClasses: 'bg-red-600 text-white rounded-md p-px',
+					position: 'top-center',
+					timeout: 10,
+				})
+			},
+		}
+	)
+}
+
 const announcement = reactive({
+	title: '',
 	subject: '',
-	replyTo: '',
 	announcement: '',
 })
 

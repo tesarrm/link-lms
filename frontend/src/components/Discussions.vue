@@ -37,9 +37,11 @@
 			/>
 		</div>
 	</div>
+	<!-- this for comment without topic -->
 	<div v-else-if="singleThread && topics.data">
 		<DiscussionReplies :topic="topics.data" :singleThread="singleThread" />
 	</div>
+	<!-- /this for comment without topic -->
 	<div
 		v-else
 		class="flex flex-col items-center justify-center border-2 border-dashed mt-5 py-8 rounded-md"
@@ -139,6 +141,7 @@ const topics = createResource({
 		}
 	},
 })
+console.log(topics)
 
 const showReplies = (topic) => {
 	showTopics.value = false

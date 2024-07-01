@@ -34,6 +34,80 @@ from lms.lms.md import find_macros, markdown_to_html
 
 RE_SLUG_NOTALLOWED = re.compile("[^a-z0-9]+")
 
+def get_all_detail(doc):
+    docs = frappe.get_all(doc)
+    
+    data = []
+    for a in docs:
+        b = frappe.get_doc(doc, a.name)
+        data.append(b)
+
+    return data
+
+def get_all_detail_db(doc):
+	docs = frappe.get_all(doc)
+
+	data = []
+	for a in docs:
+		b = frappe.db.get_value(
+			doc,
+			a.name,
+			["name", "full_name", "email", "username", "last_active", "user_image"],
+			as_dict=True,
+		)
+		data.append(b)
+
+	return data
+
+@frappe.whitelist()
+def get_rombel():
+	user = frappe.session.user
+	array_lama= get_all_detail('Rombel')
+
+	# Array baru untuk menyimpan hasil filter
+	array_baru = []
+
+	# Proses filtering dan pembuatan array baru
+	for rombel in array_lama:
+		for pembelajaran in rombel.pembelajaran:
+			if pembelajaran.ptk == user:
+				data_rombel = {
+					"name_rombel": rombel.name,
+					"rombel": rombel.nama_rombel,
+					"name_pembelajaran": pembelajaran.name,
+					"bidang_studi": pembelajaran.bidang_studi,
+					"nama_bidang_studi": pembelajaran.nama_bidang_studi,
+					"ptx": pembelajaran.ptk
+				}
+				array_baru.append(data_rombel)
+
+	return array_baru 
+
+# get student from rombel
+# - get name bidang studi on 'LMS Course' send from frontend 
+# - get student on rombel with name bidang studi
+# - show student on frontend
+
+@frappe.whitelist()
+def student_rombel_subject():
+	name = "1og2vfud17"
+	array_lama= get_all_detail('Rombel')
+	students = get_all_detail_db('User')
+
+	array_baru = []
+	for rombel in array_lama:
+		for pembelajaran in rombel.pembelajaran:
+			if pembelajaran.name == name:
+				array_baru = rombel.user
+    
+	students_nested = []
+	for a in students:
+		for b in array_baru:
+			if a.name == b.user:
+				students_nested.append(a)
+
+	return students_nested 
+
 
 def slugify(title, used_slugs=None):
 	"""Converts title to a slug.
@@ -1287,6 +1361,7 @@ def get_course_details(course):
 			"course_price",
 			"currency",
 			"amount_usd",
+			"rombel"
 		],
 		as_dict=1,
 	)
@@ -1330,6 +1405,10 @@ def get_course_details(course):
 		course_details.current_lesson = get_lesson_index(
 			course_details.membership.current_lesson
 		)
+	# my code
+	course_details.students = frappe.get_all(
+		"Batch Student", {"parent": course}, pluck="student"
+	)
 
 	return course_details
 
@@ -1607,7 +1686,6 @@ def get_batch_courses(batch):
 
 	return courses
 
-
 @frappe.whitelist()
 def get_assessments(batch, member=None):
 	if not member:
@@ -1616,6 +1694,26 @@ def get_assessments(batch, member=None):
 	assessments = frappe.get_all(
 		"LMS Assessment",
 		{"parent": batch},
+		["name", "assessment_type", "assessment_name"],
+	)
+
+	for assessment in assessments:
+		if assessment.assessment_type == "LMS Assignment":
+			assessment = get_assignment_details(assessment, member)
+
+		elif assessment.assessment_type == "LMS Quiz":
+			assessment = get_quiz_details(assessment, member)
+
+	return assessments
+
+@frappe.whitelist()
+def get_assignments(course, member=None):
+	if not member:
+		member = frappe.session.user
+
+	assessments = frappe.get_all(
+		"LMS Assessment",
+		{"parent": course},
 		["name", "assessment_type", "assessment_name"],
 	)
 
@@ -1746,6 +1844,64 @@ def get_batch_students(batch):
 		detail.assessments_completed = assessments_completed
 
 	return students
+
+@frappe.whitelist()
+def get_course_students(batch):
+	students = []
+
+	students_list = frappe.get_all(
+		"Batch Student", filters={"parent": batch}, fields=["student", "name"]
+	)
+
+	batch_courses = frappe.get_all("Batch Course", {"parent": batch}, pluck="course")
+
+	assessments = frappe.get_all(
+		"LMS Assessment",
+		filters={"parent": batch},
+		fields=["name", "assessment_type", "assessment_name"],
+	)
+
+	for student in students_list:
+		courses_completed = 0
+		assessments_completed = 0
+		detail = frappe.db.get_value(
+			"User",
+			student.student,
+			["full_name", "email", "username", "last_active", "user_image"],
+			as_dict=True,
+		)
+		detail.last_active = format_datetime(detail.last_active, "dd MMM YY")
+		detail.name = student.name
+		students.append(detail)
+
+		for course in batch_courses:
+			progress = frappe.db.get_value(
+				"LMS Enrollment", {"course": course, "member": student.student}, "progress"
+			)
+
+			if progress == 100:
+				courses_completed += 1
+
+		detail.courses_completed = courses_completed
+
+		for assessment in assessments:
+			if has_submitted_assessment(
+				assessment.assessment_name, assessment.assessment_type, student.student
+			):
+				assessments_completed += 1
+
+		detail.assessments_completed = assessments_completed
+
+	return students
+
+
+@frappe.whitelist()
+def get_course_announcements(batch):
+	announc_list = frappe.get_all(
+		"LMS Course Announcement", filters={"parent": batch}, fields=["*"]
+	)
+	return announc_list 
+
 
 
 @frappe.whitelist()

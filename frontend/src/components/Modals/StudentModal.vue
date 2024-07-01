@@ -47,7 +47,7 @@ const studentResource = createResource({
 			doc: {
 				doctype: 'Batch Student',
 				parent: props.batch,
-				parenttype: 'LMS Batch',
+				parenttype: 'LMS Course',
 				parentfield: 'students',
 				student: student.value,
 			},

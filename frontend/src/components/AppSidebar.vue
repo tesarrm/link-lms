@@ -134,7 +134,7 @@ const unreadNotifications = createResource({
 const addNotifications = () => {
 	if (user) {
 		sidebarLinks.value.push({
-			label: 'Notifications',
+			label: 'Pemberitahuan',
 			icon: 'Bell',
 			to: 'Notifications',
 			activeFor: ['Notifications'],

@@ -18,9 +18,17 @@ frappe.ui.form.on("LMS Course", {
 				},
 			};
 		});
+		frm.set_query("assessment_type", "assignments", function () {
+			let doctypes = ["LMS Quiz", "LMS Assignment"];
+			return {
+				filters: {
+					name: ["in", doctypes],
+				},
+			};
+		});
 	},
 	refresh: (frm) => {
-		frm.add_web_link(`/lms/courses/${frm.doc.name}`, "See on Website");
+		frm.add_web_link(`/lms/pelajaran/${frm.doc.name}`, "See on Website");
 
 		if (!frm.doc.currency)
 			frappe.db

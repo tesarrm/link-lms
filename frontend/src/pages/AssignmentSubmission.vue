@@ -153,7 +153,7 @@ const assignment = createResource({
 })
 
 const showUploader = () => {
-	return ['PDF', 'Image', 'Document'].includes(assignment.data?.type)
+	return ['PDF', 'Image', 'Document', 'File'].includes(assignment.data?.type)
 }
 
 const updateSubmission = createResource({
@@ -292,7 +292,31 @@ const saveSubmission = (file) => {
 
 const getType = () => {
 	const type = assignment.data?.type
-	if (type == 'Image') {
+	if (type == 'File'){
+		return [
+			'.doc', '.docx', '.xml', 'application/msword', 
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+			'.pdf', 
+			'image/*',
+			'video/*', 
+			'audio/*',
+			'.xls', '.xlsx', 'application/vnd.ms-excel', 
+			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+			'.ppt', '.pptx', 'application/vnd.ms-powerpoint', 
+			'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+			'.txt', '.csv', 'text/plain', 'text/csv',
+			'application/zip', 'application/x-7z-compressed', 
+			'application/x-rar-compressed', 'application/x-tar',
+			'application/x-zip-compressed', 'application/x-bzip2',
+			'application/x-gzip', 'application/x-compressed',
+			'application/x-xz', 'application/x-xar',
+			'application/x-cpio', 'application/x-lzip',
+			'application/x-lzma', 'application/x-lzop',
+			'application/x-zstd', 'application/x-xz-utils',
+			'application/x-xz-compressed', 'application/x-bzip',
+			'application/x-bzip2-compressed', 'application/x-xz-compressed',
+		]
+	} else if (type == 'Image') {
 		return ['image/*']
 	} else if (type == 'Document') {
 		return [

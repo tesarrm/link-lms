@@ -76,6 +76,9 @@
 			<div class="text-xl font-semibold leading-6">
 				{{ course.title }}
 			</div>
+			<div class="mt-2 mb-2">
+				{{ course.rombel}}
+			</div>
 
 			<div class="short-introduction">
 				{{ course.short_introduction }}

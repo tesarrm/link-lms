@@ -32,10 +32,22 @@
 						<div class="text-lg font-semibold mb-4">
 							{{ __('Detail') }}
 						</div>
+						<RombelLink
+							doctype="Rombel"
+							v-model="rombel_bidang_studi"
+							class="mb-4"
+						/>
 						<FormControl
 							v-model="course.title"
 							:label="__('Judul')"
 							class="mb-4"
+							readonly
+						/>
+						<FormControl
+							v-model="course.rombel"
+							:label="__('Rombel')"
+							class="mb-4"
+							readonly
 						/>
 						<FormControl
 							v-model="course.short_introduction"
@@ -225,6 +237,7 @@ import {
 } from 'vue'
 import { convertToTitleCase, showToast, getFileSize } from '../utils'
 import Link from '@/components/Controls/Link.vue'
+import RombelLink from '@/components/Controls/RombelLink.vue'
 import { FileText, X } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 import CourseOutline from '@/components/CourseOutline.vue'
@@ -232,8 +245,19 @@ import MultiSelect from '@/components/Controls/MultiSelect.vue'
 
 const user = inject('$user')
 const newTag = ref('')
+const rombel_bidang_studi = ref()
 const router = useRouter()
 const instructors = ref([])
+
+let parts = "";
+watch(rombel_bidang_studi, (newValue) => {
+      if (newValue) {
+        parts = newValue.split(" -- ");
+        course.bidang_studi = parts[0].trim(); // name 
+        course.rombel = parts[1].trim(); // rombel
+        course.title = parts[2].trim(); // bidang studi
+      }
+    });
 
 const props = defineProps({
 	courseName: {
@@ -242,7 +266,9 @@ const props = defineProps({
 })
 
 const course = reactive({
+	bidang_studi: '',
 	title: '',
+	rombel: '',
 	short_introduction: '',
 	description: '',
 	video_link: '',

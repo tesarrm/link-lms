@@ -14,7 +14,9 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "bidang_studi",
   "title",
+  "rombel",
   "video_link",
   "image",
   "column_break_3",
@@ -46,7 +48,13 @@
   "column_break_rxww",
   "grant_certificate_after",
   "evaluator",
-  "duration"
+  "duration",
+  "students_tab",
+  "students",
+  "assignments_tab",
+  "assignments",
+  "announcements_tab",
+  "announcements"
  ],
  "fields": [
   {
@@ -250,6 +258,52 @@
    "fieldname": "featured",
    "fieldtype": "Check",
    "label": "Featured"
+  },
+  {
+   "fieldname": "students_tab",
+   "fieldtype": "Tab Break",
+   "label": "Students"
+  },
+  {
+   "fieldname": "assignments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Assignments"
+  },
+  {
+   "fieldname": "assignments",
+   "fieldtype": "Table",
+   "options": "LMS Assessment"
+  },
+  {
+   "fieldname": "students",
+   "fieldtype": "Table",
+   "options": "Batch Student"
+  },
+  {
+   "fieldname": "announcements_tab",
+   "fieldtype": "Tab Break",
+   "label": "Announcements"
+  },
+  {
+   "fieldname": "announcements",
+   "fieldtype": "Table",
+   "options": "LMS Course Announcement"
+  },
+  {
+   "fieldname": "bidang_studi",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Bidang Studi",
+   "reqd": 1,
+   "width": "200"
+  },
+  {
+   "fieldname": "rombel",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Rombel",
+   "reqd": 1,
+   "width": "200"
   }
  ],
  "is_published_field": "published",
@@ -276,7 +330,7 @@
   }
  ],
  "make_attachments_public": 1,
- "modified": "2024-06-24 17:44:45.903164",
+ "modified": "2024-07-01 03:32:25.859329",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Course",
